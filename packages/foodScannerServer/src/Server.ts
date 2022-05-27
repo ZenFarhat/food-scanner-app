@@ -1,15 +1,15 @@
-import {join} from "path";
-import {Configuration, Inject} from "@tsed/di";
-import {PlatformApplication} from "@tsed/common";
-import "@tsed/platform-express"; // /!\ keep this import
-import bodyParser from "body-parser";
-import compress from "compression";
-import cookieParser from "cookie-parser";
-import methodOverride from "method-override";
-import cors from "cors";
-import "@tsed/ajv";
-import {config} from "./config";
-import * as rest from "./controllers/rest";
+import { join } from "path"
+import { Configuration, Inject } from "@tsed/di"
+import { PlatformApplication } from "@tsed/common"
+import "@tsed/platform-express" // /!\ keep this import
+import bodyParser from "body-parser"
+import compress from "compression"
+import cookieParser from "cookie-parser"
+import methodOverride from "method-override"
+import cors from "cors"
+import "@tsed/ajv"
+import { config } from "./config"
+import * as rest from "./controllers/rest"
 
 @Configuration({
   ...config,
@@ -18,9 +18,7 @@ import * as rest from "./controllers/rest";
   httpsPort: false, // CHANGE
   componentsScan: false,
   mount: {
-    "/rest": [
-      ...Object.values(rest)
-    ]
+    "/foodscanner": [...Object.values(rest)],
   },
   middlewares: [
     cors(),
@@ -29,23 +27,21 @@ import * as rest from "./controllers/rest";
     methodOverride(),
     bodyParser.json(),
     bodyParser.urlencoded({
-      extended: true
-    })
+      extended: true,
+    }),
   ],
   views: {
     root: join(process.cwd(), "../views"),
     extensions: {
-      ejs: "ejs"
-    }
+      ejs: "ejs",
+    },
   },
-  exclude: [
-    "**/*.spec.ts"
-  ]
+  exclude: ["**/*.spec.ts"],
 })
 export class Server {
   @Inject()
-  protected app: PlatformApplication;
+  protected app: PlatformApplication
 
   @Configuration()
-  protected settings: Configuration;
+  protected settings: Configuration
 }
